@@ -461,6 +461,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    rowClassNameGetter: PropTypes.func,
 
 	    /**
+	     * If specified, `rowKeyGetter(index)` is called for each row and the
+	     * returned value overrides `key` for the particular row.
+	     */
+	    rowKeyGetter: PropTypes.func,
+
+	    /**
 	     * Pixel height of the column group header.
 	     */
 	    groupHeaderHeight: PropTypes.number,
@@ -695,6 +701,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        offsetTop: 0,
 	        scrollLeft: state.scrollX,
 	        fixedColumns: state.groupHeaderFixedColumns,
+	        rightFixedColumns: state.groupHeaderRightFixedColumns,
 	        scrollableColumns: state.groupHeaderScrollableColumns,
 	        onColumnResize: this._onColumnResize,
 	        onColumnReorder: onColumnReorder,
@@ -771,6 +778,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        zIndex: 1,
 	        offsetTop: footOffsetTop,
 	        fixedColumns: state.footFixedColumns,
+	        rightFixedColumns: state.footRightFixedColumns,
 	        scrollableColumns: state.footScrollableColumns,
 	        scrollLeft: state.scrollX
 	      });
@@ -789,6 +797,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      offsetTop: headerOffsetTop,
 	      scrollLeft: state.scrollX,
 	      fixedColumns: state.headFixedColumns,
+	      rightFixedColumns: state.headRightFixedColumns,
 	      scrollableColumns: state.headScrollableColumns,
 	      onColumnResize: this._onColumnResize,
 	      onColumnReorder: onColumnReorder,
@@ -850,6 +859,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      firstRowIndex: state.firstRowIndex,
 	      firstRowOffset: state.firstRowOffset,
 	      fixedColumns: state.bodyFixedColumns,
+	      rightFixedColumns: state.bodyRightFixedColumns,
 	      height: state.bodyHeight,
 	      offsetTop: offsetTop,
 	      onRowClick: state.onRowClick,
@@ -861,6 +871,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      rowsCount: state.rowsCount,
 	      rowGetter: state.rowGetter,
 	      rowHeightGetter: state.rowHeightGetter,
+	      rowKeyGetter: state.rowKeyGetter,
 	      scrollLeft: state.scrollX,
 	      scrollableColumns: state.bodyScrollableColumns,
 	      showLastRowBorder: true,
@@ -1017,24 +1028,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	    } else {
 	      var bodyColumnTypes = this._splitColumnTypes(columns);
 	      columnInfo.bodyFixedColumns = bodyColumnTypes.fixed;
+	      columnInfo.bodyRightFixedColumns = bodyColumnTypes.rightFixed;
 	      columnInfo.bodyScrollableColumns = bodyColumnTypes.scrollable;
 
 	      var headColumnTypes = this._splitColumnTypes(this._selectColumnElement(HEADER, columns));
 	      columnInfo.headFixedColumns = headColumnTypes.fixed;
+	      columnInfo.headRightFixedColumns = headColumnTypes.rightFixed;
 	      columnInfo.headScrollableColumns = headColumnTypes.scrollable;
 
 	      var footColumnTypes = this._splitColumnTypes(this._selectColumnElement(FOOTER, columns));
 	      columnInfo.footFixedColumns = footColumnTypes.fixed;
+	      columnInfo.footRightFixedColumns = footColumnTypes.rightFixed;
 	      columnInfo.footScrollableColumns = footColumnTypes.scrollable;
 	    }
 
 	    if (canReuseColumnGroupSettings) {
 	      columnInfo.groupHeaderFixedColumns = oldState.groupHeaderFixedColumns;
+	      columnInfo.groupHeaderRightFixedColumns = oldState.groupHeaderRightFixedColumns;
 	      columnInfo.groupHeaderScrollableColumns = oldState.groupHeaderScrollableColumns;
 	    } else {
 	      if (columnGroups) {
 	        var groupHeaderColumnTypes = this._splitColumnTypes(this._selectColumnElement(HEADER, columnGroups));
 	        columnInfo.groupHeaderFixedColumns = groupHeaderColumnTypes.fixed;
+	        columnInfo.groupHeaderRightFixedColumns = groupHeaderColumnTypes.rightFixed;
 	        columnInfo.groupHeaderScrollableColumns = groupHeaderColumnTypes.scrollable;
 	      }
 	    }
@@ -1238,16 +1254,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  _splitColumnTypes: function _splitColumnTypes( /*array*/columns) /*object*/{
 	    var fixedColumns = [];
+	    var rightFixedColumns = [];
 	    var scrollableColumns = [];
 	    for (var i = 0; i < columns.length; ++i) {
 	      if (columns[i].props.fixed) {
 	        fixedColumns.push(columns[i]);
+	      } else if (columns[i].props.rightFixed) {
+	        rightFixedColumns.push(columns[i]);
 	      } else {
 	        scrollableColumns.push(columns[i]);
 	      }
 	    }
 	    return {
 	      fixed: fixedColumns,
+	      rightFixed: rightFixedColumns,
 	      scrollable: scrollableColumns
 	    };
 	  },
@@ -3938,6 +3958,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    firstRowIndex: PropTypes.number.isRequired,
 	    firstRowOffset: PropTypes.number.isRequired,
 	    fixedColumns: PropTypes.array.isRequired,
+	    rightFixedColumns: PropTypes.array.isRequired,
 	    height: PropTypes.number.isRequired,
 	    offsetTop: PropTypes.number.isRequired,
 	    onRowClick: PropTypes.func,
@@ -3948,6 +3969,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    rowClassNameGetter: PropTypes.func,
 	    rowsCount: PropTypes.number.isRequired,
 	    rowHeightGetter: PropTypes.func,
+	    rowKeyGetter: PropTypes.func,
 	    rowPositionGetter: PropTypes.func.isRequired,
 	    scrollLeft: PropTypes.number.isRequired,
 	    scrollableColumns: PropTypes.array.isRequired,
@@ -4021,11 +4043,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var rowIndex = rowsToRender[i];
 	      var currentRowHeight = this._getRowHeight(rowIndex);
 	      var rowOffsetTop = baseOffsetTop + rowPositions[rowIndex];
+	      var rowKey = props.rowKeyGetter ? props.rowKeyGetter(rowIndex) : i;
 
 	      var hasBottomBorder = rowIndex === props.rowsCount - 1 && props.showLastRowBorder;
 
 	      this._staticRowArray[i] = _React2.default.createElement(_FixedDataTableRow2.default, {
-	        key: i,
+	        key: rowKey,
 	        isScrolling: props.isScrolling,
 	        index: rowIndex,
 	        width: props.width,
@@ -4033,6 +4056,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        scrollLeft: Math.round(props.scrollLeft),
 	        offsetTop: Math.round(rowOffsetTop),
 	        fixedColumns: props.fixedColumns,
+	        rightFixedColumns: props.rightFixedColumns,
 	        scrollableColumns: props.scrollableColumns,
 	        onClick: props.onRowClick,
 	        onDoubleClick: props.onRowDoubleClick,
@@ -4679,6 +4703,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    fixedColumns: PropTypes.array.isRequired,
 
 	    /**
+	     * Array of <FixedDataTableColumn /> for the fixed columns (right position).
+	     */
+	    rightFixedColumns: PropTypes.array.isRequired,
+
+	    /**
 	     * Height of the row.
 	     */
 	    height: PropTypes.number.isRequired,
@@ -4782,14 +4811,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	      rowHeight: this.props.height,
 	      rowIndex: this.props.index
 	    });
+	    var rightFixedColumnsWidth = this._getColumnsWidth(this.props.rightFixedColumns);
+	    var rightFixedColumns = _React2.default.createElement(_FixedDataTableCellGroup2.default, {
+	      key: 'right_fixed_cells',
+	      isScrolling: this.props.isScrolling,
+	      height: this.props.height,
+	      left: -this.props.width + rightFixedColumnsWidth,
+	      width: rightFixedColumnsWidth,
+	      zIndex: 2,
+	      columns: this.props.rightFixedColumns,
+	      onColumnResize: this.props.onColumnResize,
+	      onColumnReorder: this.props.onColumnReorder,
+	      onColumnReorderMove: this.props.onColumnReorderMove,
+	      onColumnReorderEnd: this.props.onColumnReorderEnd,
+	      isColumnReordering: this.props.isColumnReordering,
+	      columnReorderingData: this.props.columnReorderingData,
+	      rowHeight: this.props.height,
+	      rowIndex: this.props.index
+	    });
+
 	    var columnsLeftShadow = this._renderColumnsLeftShadow(fixedColumnsWidth);
+	    var columnsLeftShadow2 = this._renderColumnsLeftShadow(this.props.width - rightFixedColumnsWidth - 1);
 	    var scrollableColumns = _React2.default.createElement(_FixedDataTableCellGroup2.default, {
 	      key: 'scrollable_cells',
 	      isScrolling: this.props.isScrolling,
 	      height: this.props.height,
 	      left: this.props.scrollLeft,
 	      offsetLeft: fixedColumnsWidth,
-	      width: this.props.width - fixedColumnsWidth,
+	      width: this.props.width - fixedColumnsWidth - rightFixedColumnsWidth,
 	      zIndex: 0,
 	      columns: this.props.scrollableColumns,
 	      onColumnResize: this.props.onColumnResize,
@@ -4819,7 +4868,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        { className: (0, _cx2.default)('fixedDataTableRowLayout/body') },
 	        fixedColumns,
 	        scrollableColumns,
-	        columnsLeftShadow
+	        columnsLeftShadow,
+	        rightFixedColumns,
+	        columnsLeftShadow2
 	      ),
 	      columnsRightShadow
 	    );
