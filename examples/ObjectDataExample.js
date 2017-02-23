@@ -77,6 +77,7 @@ class ObjectDataExample extends React.Component {
           header={<Cell>DOB</Cell>}
           cell={<DateCell data={dataList} />}
           width={200}
+          rightFixed={true}
         />
       </Table>
     );

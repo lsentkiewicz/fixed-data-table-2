@@ -38,6 +38,11 @@ var FixedDataTableRowImpl = React.createClass({
     fixedColumns: PropTypes.array.isRequired,
 
     /**
+     * Array of <FixedDataTableColumn /> for the fixed columns (right position).
+     */
+    rightFixedColumns: PropTypes.array.isRequired,
+
+    /**
      * Height of the row.
      */
     height: PropTypes.number.isRequired,
@@ -142,7 +147,28 @@ var FixedDataTableRowImpl = React.createClass({
         rowHeight={this.props.height}
         rowIndex={this.props.index}
       />;
+    var rightFixedColumnsWidth = this._getColumnsWidth(this.props.rightFixedColumns);
+    var rightFixedColumns =
+      <FixedDataTableCellGroup
+        key="right_fixed_cells"
+        isScrolling={this.props.isScrolling}
+        height={this.props.height}
+        left={-this.props.width + rightFixedColumnsWidth}
+        width={rightFixedColumnsWidth}
+        zIndex={2}
+        columns={this.props.rightFixedColumns}
+        onColumnResize={this.props.onColumnResize}
+        onColumnReorder={this.props.onColumnReorder}
+        onColumnReorderMove={this.props.onColumnReorderMove}
+        onColumnReorderEnd={this.props.onColumnReorderEnd}
+        isColumnReordering={this.props.isColumnReordering}
+        columnReorderingData={this.props.columnReorderingData}
+        rowHeight={this.props.height}
+        rowIndex={this.props.index}
+      />;
+
     var columnsLeftShadow = this._renderColumnsLeftShadow(fixedColumnsWidth);
+    var columnsLeftShadow2 = this._renderColumnsLeftShadow(this.props.width - rightFixedColumnsWidth - 1);
     var scrollableColumns =
       <FixedDataTableCellGroup
         key="scrollable_cells"
@@ -150,7 +176,7 @@ var FixedDataTableRowImpl = React.createClass({
         height={this.props.height}
         left={this.props.scrollLeft}
         offsetLeft={fixedColumnsWidth}
-        width={this.props.width - fixedColumnsWidth}
+        width={this.props.width - fixedColumnsWidth - rightFixedColumnsWidth}
         zIndex={0}
         columns={this.props.scrollableColumns}
         onColumnResize={this.props.onColumnResize}
@@ -178,6 +204,8 @@ var FixedDataTableRowImpl = React.createClass({
           {fixedColumns}
           {scrollableColumns}
           {columnsLeftShadow}
+          {rightFixedColumns}
+          {columnsLeftShadow2}
         </div>
         {columnsRightShadow}
       </div>
