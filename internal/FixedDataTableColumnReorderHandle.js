@@ -12,6 +12,10 @@ var _React = require('./React');
 
 var _React2 = _interopRequireDefault(_React);
 
+var _createReactClass = require('create-react-class');
+
+var _createReactClass2 = _interopRequireDefault(_createReactClass);
+
 var _ReactComponentWithPureRenderMixin = require('./ReactComponentWithPureRenderMixin');
 
 var _ReactComponentWithPureRenderMixin2 = _interopRequireDefault(_ReactComponentWithPureRenderMixin);
@@ -23,6 +27,10 @@ var _clamp2 = _interopRequireDefault(_clamp);
 var _cx = require('./cx');
 
 var _cx2 = _interopRequireDefault(_cx);
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41,12 +49,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @typechecks
  */
 
-var PropTypes = _React2.default.PropTypes;
-
-
-var FixedDataTableColumnReorderHandle = _React2.default.createClass({
+var FixedDataTableColumnReorderHandle = (0, _createReactClass2.default)({
   displayName: 'FixedDataTableColumnReorderHandle',
-
   mixins: [_ReactComponentWithPureRenderMixin2.default],
 
   propTypes: {
@@ -54,12 +58,12 @@ var FixedDataTableColumnReorderHandle = _React2.default.createClass({
     /**
      * When resizing is complete this is called.
      */
-    onColumnReorderEnd: PropTypes.func,
+    onColumnReorderEnd: _propTypes2.default.func,
 
     /**
      * Column key for the column being reordered.
      */
-    columnKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    columnKey: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.number])
   },
 
   getInitialState: function getInitialState() /*object*/{

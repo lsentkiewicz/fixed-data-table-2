@@ -12,6 +12,10 @@ var _React = require('./React');
 
 var _React2 = _interopRequireDefault(_React);
 
+var _createReactClass = require('create-react-class');
+
+var _createReactClass2 = _interopRequireDefault(_createReactClass);
+
 var _ReactComponentWithPureRenderMixin = require('./ReactComponentWithPureRenderMixin');
 
 var _ReactComponentWithPureRenderMixin2 = _interopRequireDefault(_ReactComponentWithPureRenderMixin);
@@ -23,6 +27,10 @@ var _clamp2 = _interopRequireDefault(_clamp);
 var _cx = require('./cx');
 
 var _cx2 = _interopRequireDefault(_cx);
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42,65 +50,61 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @typechecks
  */
 
-var PropTypes = _React2.default.PropTypes;
-
-
-var FixedDataTableColumnResizeHandle = _React2.default.createClass({
+var FixedDataTableColumnResizeHandle = (0, _createReactClass2.default)({
   displayName: 'FixedDataTableColumnResizeHandle',
-
   mixins: [_ReactComponentWithPureRenderMixin2.default],
 
   propTypes: {
-    visible: PropTypes.bool.isRequired,
+    visible: _propTypes2.default.bool.isRequired,
 
     /**
      * This is the height of the line
      */
-    height: PropTypes.number.isRequired,
+    height: _propTypes2.default.number.isRequired,
 
     /**
      * Offset from left border of the table, please note
      * that the line is a border on diff. So this is really the
      * offset of the column itself.
      */
-    leftOffset: PropTypes.number.isRequired,
+    leftOffset: _propTypes2.default.number.isRequired,
 
     /**
      * Height of the clickable region of the line.
      * This is assumed to be at the top of the line.
      */
-    knobHeight: PropTypes.number.isRequired,
+    knobHeight: _propTypes2.default.number.isRequired,
 
     /**
      * The line is a border on a diff, so this is essentially
      * the width of column.
      */
-    initialWidth: PropTypes.number,
+    initialWidth: _propTypes2.default.number,
 
     /**
      * The minimum width this dragger will collapse to
      */
-    minWidth: PropTypes.number,
+    minWidth: _propTypes2.default.number,
 
     /**
      * The maximum width this dragger will collapse to
      */
-    maxWidth: PropTypes.number,
+    maxWidth: _propTypes2.default.number,
 
     /**
      * Initial click event on the header cell.
      */
-    initialEvent: PropTypes.object,
+    initialEvent: _propTypes2.default.object,
 
     /**
      * When resizing is complete this is called.
      */
-    onColumnResizeEnd: PropTypes.func,
+    onColumnResizeEnd: _propTypes2.default.func,
 
     /**
      * Column key for the column being resized.
      */
-    columnKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    columnKey: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.number])
   },
 
   getInitialState: function getInitialState() /*object*/{
