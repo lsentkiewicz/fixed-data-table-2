@@ -13,6 +13,7 @@
 import DOMMouseMoveTracker from 'DOMMouseMoveTracker';
 import Keys from 'Keys';
 import React from 'React';
+import createReactClass from 'create-react-class';
 import ReactDOM from 'ReactDOM';
 import ReactComponentWithPureRenderMixin from 'ReactComponentWithPureRenderMixin';
 import ReactWheelHandler from 'ReactWheelHandler';
@@ -22,7 +23,7 @@ import cx from 'cx';
 import emptyFunction from 'emptyFunction';
 import FixedDataTableTranslateDOMPosition from 'FixedDataTableTranslateDOMPosition';
 
-var {PropTypes} = React;
+import PropTypes from 'prop-types';
 
 var UNSCROLLABLE_STATE = {
   position: 0,
@@ -36,7 +37,8 @@ var KEYBOARD_SCROLL_AMOUNT = 40;
 
 var _lastScrolledScrollbar = null;
 
-var Scrollbar = React.createClass({
+var Scrollbar = createReactClass({
+  displayName: 'Scrollbar',
   mixins: [ReactComponentWithPureRenderMixin],
 
   propTypes: {

@@ -14,6 +14,7 @@
     "babel-loader": "^6.2.4",
     "babel-plugin-rewire": "^1.0.0-rc-4",
     "babel-plugin-syntax-trailing-function-commas": "^6.8.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-assign": "^6.8.0",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "babel-preset-es2015": "^6.9.0",
@@ -37,11 +38,12 @@
     "null-loader": "^0.1.0",
     "postcss": "^4.0.2",
     "postcss-custom-properties": "3.0.1",
-    "react": "^15.2.1",
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
     "react-addons-test-utils": "^15.2.1",
     "react-dimensions": "^1.3.0",
     "react-docgen": "^1.2.0",
-    "react-dom": "^15.3.2",
+    "react-dom": "^16.2.0",
     "react-tools": "^0.12.2",
     "react-tooltip": "^3.2.1",
     "sinon": "^2.0.0-pre.2",
@@ -81,5 +83,8 @@
     "table",
     "data-table",
     "fixed-table"
-  ]
+  ],
+  "dependencies": {
+    "create-react-class": "^15.6.2"
+  }
 }

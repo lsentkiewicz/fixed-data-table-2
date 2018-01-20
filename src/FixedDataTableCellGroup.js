@@ -14,16 +14,18 @@
 
 import FixedDataTableHelper from 'FixedDataTableHelper';
 import React from 'React';
+import createReactClass from 'create-react-class';
 import FixedDataTableCell from 'FixedDataTableCell';
 
 import cx from 'cx';
 import FixedDataTableTranslateDOMPosition from 'FixedDataTableTranslateDOMPosition';
 
-var {PropTypes} = React;
+import PropTypes from 'prop-types';
 
 var DIR_SIGN = FixedDataTableHelper.DIR_SIGN;
 
-var FixedDataTableCellGroupImpl = React.createClass({
+var FixedDataTableCellGroupImpl = createReactClass({
+  displayName: 'FixedDataTableCellGroupImpl',
 
   /**
    * PropTypes are disabled in this component, because having them on slows
@@ -164,7 +166,8 @@ var FixedDataTableCellGroupImpl = React.createClass({
   },
 });
 
-var FixedDataTableCellGroup = React.createClass({
+var FixedDataTableCellGroup = createReactClass({
+  displayName: 'FixedDataTableCellGroup',
 
   /**
    * PropTypes are disabled in this component, because having them on slows
